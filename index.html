@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nome do Jogo — Aviso</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url(telainicio.png);
+            color: #d8d8d8;
+            font-family: Georgia, "Times New Roman", serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Fundo */
+        .screen {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(50, 50, 50, 0.18) 0%,
+                    rgba(10, 10, 10, 0.7) 45%,
+                    #020202 100%
+                );
+
+            animation: fadeIn 2s ease;
+        }
+
+        /* Efeito de vinheta */
+        .screen::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background: radial-gradient(
+                ellipse at center,
+                transparent 35%,
+                rgba(0, 0, 0, 0.75) 100%
+            );
+
+            pointer-events: none;
+        }
+
+        /* Pequeno ruído visual */
+        .noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            pointer-events: none;
+
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    #ffffff 3px
+                );
+
+            animation: noise 0.15s infinite;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+
+            width: min(700px, 90%);
+            text-align: center;
+
+            padding: 45px 50px;
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(5, 5, 5, 0.82);
+
+            box-shadow:
+                0 0 60px rgba(0, 0, 0, 0.9),
+                inset 0 0 40px rgba(255, 255, 255, 0.015);
+        }
+
+        .warning-symbol {
+            font-size: 42px;
+            color: #9b9b9b;
+            margin-bottom: 20px;
+
+            animation: pulse 3s infinite;
+        }
+
+        h1 {
+            font-size: clamp(24px, 4vw, 38px);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+
+            color: #eeeeee;
+            margin-bottom: 30px;
+
+            font-weight: normal;
+        }
+
+        .line {
+            width: 80px;
+            height: 1px;
+            background: #777;
+            margin: 0 auto 30px;
+        }
+
+        .warning {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.8;
+
+            color: #bcbcbc;
+        }
+
+        .warning strong {
+            display: block;
+
+            color: #e0e0e0;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            margin-bottom: 15px;
+        }
+
+        .warning p {
+            margin-bottom: 18px;
+        }
+
+        .help {
+            color: #8f8f8f;
+            font-size: 13px;
+        }
+
+        /* Botão */
+        .continue-btn {
+            margin-top: 30px;
+
+            padding: 14px 35px;
+
+            background: transparent;
+            border: 1px solid #777;
+            color: #ddd;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 14px;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            background: #ddd;
+            color: #050505;
+            border-color: #ddd;
+
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+
+        .continue-btn:active {
+            transform: scale(0.98);
+        }
+
+        .footer {
+            margin-top: 25px;
+
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes noise {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-2px);
+            }
+
+            100% {
+                transform: translateY(2px);
+            }
+        }
+
+        /* Celular */
+        @media (max-width: 600px) {
+            .content {
+                padding: 35px 25px;
+            }
+
+            h1 {
+                letter-spacing: 3px;
+            }
+
+            .warning {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="screen">
+
+        <div class="noise"></div>
+
+        <section class="content">
+
+            <div class="warning-symbol">⚠</div>
+
+            <h1>Aviso de conteúdo</h1>
+
+            <div class="line"></div>
+
+            <div class="warning">
+
+                <strong>Este jogo contém temas sensíveis.</strong>
+
+                <p>
+                    Esta obra de ficção aborda temas relacionados a
+                    sofrimento psicológico, saúde mental e suicídio.
+                </p>
+
+                <p>
+                    Algumas situações podem ser emocionalmente difíceis
+                    para determinadas pessoas. Recomendamos que você
+                    prossiga apenas se estiver confortável com esses temas.
+                </p>
+
+                <p class="help">
+                    Se você estiver passando por uma situação semelhante
+                    ou se sentir em risco, considere conversar com alguém
+                    de confiança e procurar ajuda profissional.
+                    Você não precisa enfrentar isso sozinho.
+                </p>
+
+            </div>
+
+            <button
+                class="continue-btn"
+                onclick="irParaMenu()">
+                Continuar
+            </button>
+
+            <div class="footer">
+                FICÇÃO • TEMAS SENSÍVEIS • JOGUE COM CUIDADO
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        function irParaMenu() {
+            // Troque "menu.html" pelo arquivo da sua tela de menu.
+            window.location.href = "menu.html";
+        }
+    </script>
+
+</body>
+</html>

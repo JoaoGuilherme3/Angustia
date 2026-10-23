@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANGÚSTIA</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+
+            background: #000;
+            color: #d8d8d8;
+
+            font-family: "Courier New", monospace;
+        }
+
+        /* Tela */
+
+        .terminal {
+            
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #000;
+
+            position: relative;
+        }
+
+        /* Efeito CRT */
+
+        .terminal::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255,255,255,0.025) 0px,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 2px,
+                    transparent 4px
+                );
+
+            z-index: 10;
+        }
+
+        /* Vinheta */
+
+        .terminal::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            box-shadow:
+                inset 0 0 150px rgba(0,0,0,0.95);
+
+            z-index: 11;
+        }
+
+        /* Área do computador */
+
+        .screen {
+            width: min(900px, 90%);
+            height: 70%;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+
+            padding: 40px;
+
+            color: #cfcfcf;
+
+            font-size: clamp(13px, 1.5vw, 17px);
+
+            line-height: 1.7;
+
+            text-shadow:
+                0 0 5px rgba(255,255,255,0.15);
+        }
+
+        /* Linha de comando */
+
+        .command {
+            margin-bottom: 35px;
+
+            color: #888;
+        }
+
+        .prompt {
+            color: #aaa;
+        }
+
+        /* Texto */
+
+        #texto {
+            max-width: 800px;
+
+            min-height: 180px;
+        }
+
+        .quote {
+            color: #ddd;
+
+            font-size: clamp(16px, 2vw, 22px);
+
+            line-height: 1.8;
+        }
+
+        .author {
+            display: block;
+
+            margin-top: 25px;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+        /* Cursor */
+
+        .cursor {
+            display: inline-block;
+
+            width: 9px;
+            height: 18px;
+
+            margin-left: 4px;
+
+            background: #aaa;
+
+            animation: piscar 0.8s infinite;
+        }
+
+        /* Enter */
+
+        #continuar {
+            opacity: 0;
+
+            margin-top: 45px;
+
+            color: #aaa;
+
+            font-size: 13px;
+
+            letter-spacing: 2px;
+
+            transition: opacity 1s ease;
+        }
+
+        #continuar.visivel {
+            opacity: 1;
+        }
+
+        .enter {
+            color: #ddd;
+        }
+
+        /* Animações */
+
+        @keyframes piscar {
+
+            0%, 45% {
+                opacity: 1;
+            }
+
+            46%, 100% {
+                opacity: 0;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="terminal">
+
+        <section class="screen">
+
+            <div class="command">
+                <span class="prompt">C:\ANGUSTIA&gt;</span>
+                <span id="comando"></span>
+                <span class="cursor"></span>
+            </div>
+
+            <div id="texto"></div>
+
+            <div id="continuar">
+                <span class="enter">[ ENTER ]</span>
+                &nbsp; PARA CONTINUAR...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /*
+         * Comando inicial
+         */
+
+        const comando =
+            "running ????.exe";
+
+
+        /*
+         * Texto filosófico
+         */
+
+        const texto =
+            "É preciso ter o caos dentro de si " +
+            "para dar à luz a uma estrela dançante\n\n" +
+            "— Friedrich Nietzsche";
+
+
+        const comandoElemento =
+            document.getElementById("comando");
+
+        const textoElemento =
+            document.getElementById("texto");
+
+        const continuar =
+            document.getElementById("continuar");
+
+
+        /*
+         * Velocidade da digitação
+         */
+
+        const velocidadeComando = 70;
+        const velocidadeTexto = 35;
+
+
+        /*
+         * Digita o comando
+         */
+
+        function digitarComando() {
+
+            let i = 0;
+
+            const intervalo = setInterval(() => {
+
+                comandoElemento.textContent += comando[i];
+
+                i++;
+
+                if (i >= comando.length) {
+
+                    clearInterval(intervalo);
+
+                    setTimeout(
+                        digitarTexto,
+                        700
+                    );
+
+                }
+
+            }, velocidadeComando);
+
+        }
+
+
+        /*
+         * Digita a citação
+         */
+
+        function digitarTexto() {
+
+            let i = 0;
+
+            const intervalo = setInterval(() => {
+
+                let caractere = texto[i];
+
+                /*
+                 * Permite quebras de linha
+                 */
+
+                if (caractere === "\n") {
+
+                    textoElemento.innerHTML += "<br>";
+
+                } else {
+
+                    textoElemento.innerHTML += caractere;
+
+                }
+
+                i++;
+
+                if (i >= texto.length) {
+
+                    clearInterval(intervalo);
+
+                    setTimeout(() => {
+
+                        continuar.classList.add(
+                            "visivel"
+                        );
+
+                    }, 1000);
+
+                }
+
+            }, velocidadeTexto);
+
+        }
+
+
+        /*
+         * ENTER continua para a primeira cena
+         */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key === "Enter" &&
+                    continuar.classList.contains("visivel")
+                ) {
+
+                    window.location.href =
+                        "parte1/cena1.html";
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Começa a sequência
+         */
+
+        setTimeout(
+            digitarComando,
+            1000
+        );
+
+    </script>
+
+</body>
+
+</html>
